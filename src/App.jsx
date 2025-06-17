@@ -4,7 +4,6 @@ import { asyncPreloadProcess } from "./states/isPreload/action";
 import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-import Loading from "./components/Loading";
 import UserPage from "./pages/UsersPage";
 import UserDetailPage from "./pages/UserDetailPage";
 import ProductsPage from "./pages/ProductsPage";
@@ -12,7 +11,6 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { unsetAuthUser } from "./states/authUser/action";
 import Navigation from "./components/Navigation";
-import { ProgressBarProvider } from "react-redux-progress/ProgressBarProvider";
 import LoadingBar from "./components/LoadingBar";
 
 function App() {
@@ -40,7 +38,6 @@ function App() {
     return (
       <div className="font-roboto flex gap-4 bg-orange-50">
         <LoadingBar />
-        <ProgressBarProvider isActive={loading} />
         <header>
           <Navigation onSignOut={handleSignOut} authUser={authUser} />
         </header>
@@ -61,7 +58,6 @@ function App() {
   return (
     <div className="font-roboto bg-orange-50">
       <LoadingBar />
-      <ProgressBarProvider isActive={loading} />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/*" element={<NotFoundPage />} />
