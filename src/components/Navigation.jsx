@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "./Button";
 import { GoHomeFill } from "react-icons/go";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri";
@@ -7,6 +6,29 @@ import { MdOutlineLogout } from "react-icons/md";
 import { Link, useLocation } from "react-router";
 import PropTypes, { any } from "prop-types";
 import { NavConsumer } from "../context/NavContext";
+import Button from "./Button";
+import NavigationLink from "./NavigationLink";
+
+const navLists = [
+  {
+    id: "nav-1",
+    icon: GoHomeFill,
+    title: "dashboard",
+    path: "/",
+  },
+  {
+    id: "nav-2",
+    icon: FaUser,
+    title: "user list",
+    path: "/users",
+  },
+  {
+    id: "nav-3",
+    icon: FaShoppingCart,
+    title: "products list",
+    path: "/products",
+  },
+];
 
 function Navigation({ authUser, onSignOut }) {
   const location = useLocation();
@@ -17,21 +39,18 @@ function Navigation({ authUser, onSignOut }) {
       {({ nav, toggleNav }) => {
         return (
           <section
-            className={`h-full w-[50px] bg-white px-2 py-2 md:w-auto md:px-4 ${nav && "fixed top-0 left-0 w-full md:relative md:w-xs"}`}
+            className={`h-screen w-[50px] bg-white px-2 py-2 md:w-auto md:px-4 ${nav ? "fixed top-0 left-0 z-10 w-full md:sticky md:w-xs" : "sticky top-0"}`}
           >
             <div
               className={`flex items-center ${nav ? "justify-end" : "justify-center md:justify-end"}`}
             >
-              <button
-                className="mt-4 cursor-pointer px-4 py-2"
-                onClick={toggleNav}
-              >
+              <Button onClick={toggleNav}>
                 {nav ? (
                   <RiMenuUnfold4Line className="text-xl md:text-3xl" />
                 ) : (
                   <RiMenuFold4Line className="text-xl md:text-3xl" />
                 )}
-              </button>
+              </Button>
             </div>
             {nav && (
               <h1 className="text-lg font-bold md:text-xl lg:text-2xl">
@@ -40,30 +59,17 @@ function Navigation({ authUser, onSignOut }) {
             )}
             <div className="flex h-5/6 flex-col justify-between">
               <nav className="mt-10 flex flex-col gap-2">
-                <Link
-                  to="/"
-                  onClick={toggleNav}
-                  className={`flex items-center gap-4 rounded-lg p-2 hover:bg-orange-100 md:px-4 ${currentPath === "/" && "bg-orange-100"}`}
-                >
-                  <GoHomeFill className="text-lg md:text-2xl" />
-                  {nav && <p className="md:text-lg">Dashboards</p>}
-                </Link>
-                <Link
-                  to="/users"
-                  onClick={toggleNav}
-                  className={`flex items-center gap-4 rounded-lg p-2 hover:bg-orange-100 md:px-4 ${currentPath.startsWith("/users") && "bg-orange-100"}`}
-                >
-                  <FaUser className="text-lg md:text-2xl" />
-                  {nav && <p className="md:text-lg">User List</p>}
-                </Link>
-                <Link
-                  to="/products"
-                  onClick={toggleNav}
-                  className={`flex items-center gap-4 rounded-lg p-2 hover:bg-orange-100 md:px-4 ${currentPath.startsWith("/products") && "bg-orange-100"}`}
-                >
-                  <FaShoppingCart className="text-lg md:text-2xl" />
-                  {nav && <p className="md:text-lg">Product List</p>}
-                </Link>
+                {navLists.map(({ id, icon, title, path }) => (
+                  <NavigationLink
+                    key={id}
+                    nav={nav}
+                    toggleNav={toggleNav}
+                    icon={icon}
+                    title={title}
+                    currentPath={currentPath}
+                    targetPath={path}
+                  />
+                ))}
               </nav>
               <div>
                 <div className="flex items-center justify-center gap-2">

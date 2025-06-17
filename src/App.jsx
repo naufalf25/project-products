@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncPreloadProcess } from "./states/isPreload/action";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UsersPage";
@@ -54,11 +54,10 @@ function App() {
 
   if (authUser) {
     return (
-      <div className="font-roboto flex h-screen w-screen bg-orange-50 md:gap-4">
+      <div className="font-roboto flex min-h-screen w-full bg-orange-50">
+        <LoadingBar />
         <NavProvider value={navigationContext}>
           <Navigation onSignOut={handleSignOut} authUser={authUser} />
-
-          <LoadingBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/users" element={<UserPage />} />
@@ -77,7 +76,7 @@ function App() {
       <LoadingBar />
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/*" element={<NotFoundPage />} />
+        <Route path="/*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );

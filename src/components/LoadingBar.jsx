@@ -24,7 +24,7 @@ function LoadingBar() {
 
   if (progress > 0) {
     return (
-      <div className="fixed top-0 left-0 z-10 h-1 w-full bg-gray-200">
+      <div className="fixed top-0 left-0 z-20 h-1 w-full bg-gray-200">
         <div
           className="h-full bg-orange-500 transition-all duration-500 ease-in-out"
           style={{ width: `${progress}%` }}

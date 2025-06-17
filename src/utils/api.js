@@ -60,8 +60,10 @@ const api = (() => {
     };
   };
 
-  const getAllUsers = async () => {
-    const response = await axios(`${BASE_URL}/users`);
+  const getNewAllUsers = async ({ skip, limit }) => {
+    const response = await axios(
+      `${BASE_URL}/users?skip=${skip}&limit=${limit}&sortBy=firstName&order=asc&select=firstName,lastName,email,role,image`
+    );
 
     const { status, data } = response;
 
@@ -69,7 +71,7 @@ const api = (() => {
       throw new Error(data.message || "Failed to fetch users");
     }
 
-    return data.users;
+    return data;
   };
 
   const getOwnProfile = async () => {
@@ -90,9 +92,9 @@ const api = (() => {
     return data;
   };
 
-  const getFilteredUsers = async ({ key, value }) => {
+  const getFilteredUsers = async ({ key, value, limit, skip }) => {
     const response = await axios(
-      `${BASE_URL}/users/filter?key=${key}&value=${value}`
+      `${BASE_URL}/users/filter?key=${key}&value=${value}&limit=${limit}&skip=${skip}&select=firstName,lastName,email,role,image`
     );
 
     const { status, data } = response;
@@ -101,11 +103,13 @@ const api = (() => {
       throw new Error(data.message || "Filtered users not found");
     }
 
-    return data.users;
+    return data;
   };
 
-  const getSearchedUsers = async ({ query }) => {
-    const response = await axios(`${BASE_URL}/users/search?q=${query}`);
+  const getSearchedUsers = async ({ query, skip, limit }) => {
+    const response = await axios(
+      `${BASE_URL}/users/search?q=${query}&limit=${limit}&skip=${skip}&select=firstName,lastName,email,role,image`
+    );
 
     const { status, data } = response;
 
@@ -113,7 +117,7 @@ const api = (() => {
       throw new Error(data.message || "Searched users not found");
     }
 
-    return data.users;
+    return data;
   };
 
   const getUserById = async (id) => {
@@ -252,7 +256,7 @@ const api = (() => {
     getRefreshToken,
     clearAccessToken,
     login,
-    getAllUsers,
+    getNewAllUsers,
     getOwnProfile,
     getFilteredUsers,
     getSearchedUsers,

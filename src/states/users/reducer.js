@@ -1,11 +1,24 @@
 import { ActionType } from "./action";
 
-const usersReducer = (users = [], action = {}) => {
+const initialState = {
+  users: [],
+  page: 1,
+  total: 0,
+  limit: 10,
+};
+
+const usersReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case ActionType.RECEIVE_USERS:
-      return action.payload.users;
+      return { ...state, users: action.payload.users };
+    case ActionType.RECEIVE_TOTAL_PAGE:
+      return { ...state, total: action.payload.page };
+    case ActionType.SET_PAGE:
+      return { ...state, page: action.payload.page };
+    case ActionType.SET_LIMIT:
+      return { ...state, limit: action.payload.limit };
     default:
-      return users;
+      return state;
   }
 };
 
