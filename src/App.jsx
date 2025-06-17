@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncPreloadProcess } from "./states/isPreload/action";
 import { Route, Routes } from "react-router";
@@ -12,6 +12,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import { unsetAuthUser } from "./states/authUser/action";
 import Navigation from "./components/Navigation";
 import LoadingBar from "./components/LoadingBar";
+import { NavProvider } from "./context/NavContext";
 
 function App() {
   const {
@@ -19,6 +20,23 @@ function App() {
     loading = false,
     isPreload = false,
   } = useSelector((states) => states);
+
+  const [nav, setNav] = useState(
+    JSON.parse(localStorage.getItem("nav")) || false
+  );
+
+  const navigationContext = {
+    nav,
+    toggleNav: () => {
+      setNav((prevState) => {
+        const navCond = prevState === false ? true : false;
+
+        localStorage.setItem("nav", JSON.stringify(navCond));
+
+        return navCond;
+      });
+    },
+  };
 
   const dispatch = useDispatch();
 
@@ -36,12 +54,11 @@ function App() {
 
   if (authUser) {
     return (
-      <div className="font-roboto flex gap-4 bg-orange-50">
-        <LoadingBar />
-        <header>
+      <div className="font-roboto flex h-screen w-screen bg-orange-50 md:gap-4">
+        <NavProvider value={navigationContext}>
           <Navigation onSignOut={handleSignOut} authUser={authUser} />
-        </header>
-        <main>
+
+          <LoadingBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/users" element={<UserPage />} />
@@ -50,7 +67,7 @@ function App() {
             <Route path="/products/:id" element={<ProductDetailPage />} />
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
-        </main>
+        </NavProvider>
       </div>
     );
   }

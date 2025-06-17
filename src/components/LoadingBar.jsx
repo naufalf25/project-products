@@ -16,6 +16,7 @@ function LoadingBar() {
     } else {
       setProgress(100); // Finish loading
       setTimeout(() => setProgress(0), 500); // Delay hide for smooth transition
+      return () => clearInterval(interval);
     }
 
     return () => clearInterval(interval); // Cleanup interval when unmounting
