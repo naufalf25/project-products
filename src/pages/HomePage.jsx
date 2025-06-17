@@ -1,14 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import Loading from "../components/Loading";
+import { Card } from "@mui/material";
 
 function HomePage() {
-  const { loading = false } = useSelector((states) => states);
-
   return (
-    <section className="h-screen w-full lg:overflow-hidden">
-      <h1>Homepage</h1>
-      {loading && <Loading />}
+    <section className="flex h-full w-full items-center justify-center p-4 text-center">
+      <div className="w-full max-w-2xl rounded-lg bg-white px-10 py-6 shadow-md">
+        <h1 className="text-xl font-bold tracking-wider md:text-2xl">
+          Welcome to Products App!
+        </h1>
+        <p className="mt-10 font-medium">
+          Please using menu at navigation bar to check our User list and Product
+          list
+        </p>
+      </div>
     </section>
   );
 }
