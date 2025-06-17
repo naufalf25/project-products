@@ -1,4 +1,6 @@
 import api from "../../utils/api";
+import { setError, unsetError } from "../error/action";
+import { hideLoading, showLoading } from "../loading/action";
 
 const ActionType = {
   RECEIVE_PRODUCTS: "products/receive",
@@ -42,6 +44,9 @@ const asyncCreateProduct = ({
   rating,
 }) => {
   return async (dispatch) => {
+    dispatch(showLoading());
+    dispatch(unsetError());
+
     try {
       const product = await api.addProduct({
         title,
@@ -52,8 +57,12 @@ const asyncCreateProduct = ({
       });
       dispatch(createProductActionCreator(product));
     } catch (error) {
-      throw new Error(error.message || "Failed to create new product");
+      dispatch(
+        setError(error.response.data.message || "Failed to create new product")
+      );
     }
+
+    dispatch(hideLoading());
   };
 };
 
@@ -66,6 +75,9 @@ const asyncUpdateProduct = ({
   rating,
 }) => {
   return async (dispatch) => {
+    dispatch(showLoading());
+    dispatch(unsetError());
+
     try {
       const updateProduct = await api.updateProduct({
         id,
@@ -82,8 +94,12 @@ const asyncUpdateProduct = ({
         })
       );
     } catch (error) {
-      throw new Error(error.message || "Failed to update product");
+      dispatch(
+        setError(error.response.data.message || "Failed to update product")
+      );
     }
+
+    dispatch(hideLoading());
   };
 };
 

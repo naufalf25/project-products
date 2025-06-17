@@ -1,4 +1,6 @@
+import { showToast } from "../../utils/alert";
 import api from "../../utils/api";
+import { hideLoading, showLoading } from "../loading/action";
 
 const ActionType = {
   SET_AUTH_USER: "authUser/set",
@@ -23,8 +25,10 @@ const unsetAuthUserActionCreator = () => {
   };
 };
 
-const asyncSetAuthUser = ({ username, password }) => {
+const asyncLogin = ({ username, password }) => {
   return async (dispatch) => {
+    dispatch(showLoading());
+
     try {
       const { accessToken, refreshToken } = await api.login({
         username,
@@ -38,16 +42,22 @@ const asyncSetAuthUser = ({ username, password }) => {
 
       window.location.href = "/";
     } catch (error) {
-      throw new Error(error.message || "Login Failed!");
+      showToast(error.response.data.message || "Login failed!", "error");
     }
+
+    dispatch(hideLoading());
   };
 };
 
 const unsetAuthUser = () => {
   return (dispatch) => {
+    dispatch(showLoading());
+
     dispatch(unsetAuthUserActionCreator());
     api.putAccessToken("");
     api.putRefreshToken("");
+
+    dispatch(hideLoading());
   };
 };
 
@@ -55,6 +65,6 @@ export {
   ActionType,
   setAuthUserActionCreator,
   unsetAuthUserActionCreator,
-  asyncSetAuthUser,
+  asyncLogin,
   unsetAuthUser,
 };

@@ -1,67 +1,51 @@
 import api from "../../utils/api";
+import { setError, unsetError } from "../error/action";
+import { hideLoading, showLoading } from "../loading/action";
 import { receiveProductsActionCreator } from "../products/action";
 import { receiveUsersActionCreator } from "../users/action";
 
-const asyncPopulateUsersAndProducts = () => {
+const asyncFetchData = (method, actionCreator, params = {}) => {
   return async (dispatch) => {
-    try {
-      const users = await api.getAllUsers();
-      const products = await api.getAllProducts();
+    dispatch(showLoading());
+    dispatch(unsetError());
 
-      dispatch(receiveUsersActionCreator(users));
-      dispatch(receiveProductsActionCreator(products));
+    try {
+      const data = await method(params);
+      dispatch(actionCreator(data));
     } catch (error) {
-      throw new Error(error.message || "Failed to populate users and products");
+      dispatch(setError(error.response.data.message || "Failed to fetch data"));
     }
+
+    dispatch(hideLoading());
   };
 };
 
-const asyncFilteredUsers = ({ key, value }) => {
-  return async (dispatch) => {
-    try {
-      const users = await api.getFilteredUsers({ key, value });
-      dispatch(receiveUsersActionCreator(users));
-    } catch (error) {
-      throw new Error(error.message || "Failed to fetch filtered users");
-    }
-  };
-};
+const asyncPopulateUsers = () =>
+  asyncFetchData(api.getAllUsers, receiveUsersActionCreator);
+9;
 
-const asyncSearchedUsers = (query) => {
-  return async (dispatch) => {
-    try {
-      const users = await api.getSearchedUsers(query);
-      dispatch(receiveUsersActionCreator(users));
-    } catch (error) {
-      throw new Error(error.message || "Failed to fetch searched users");
-    }
-  };
-};
+const asyncPopulateProducts = () =>
+  asyncFetchData(api.getAllProducts, receiveProductsActionCreator);
 
-const asyncGetProductsByCategory = (category) => {
-  return async (dispatch) => {
-    try {
-      const products = await api.getProductsByCategory(category);
-      dispatch(receiveProductsActionCreator(products));
-    } catch (error) {
-      throw new Error(error.message || "Failed to fetch products by category");
-    }
-  };
-};
+const asyncFilteredUsers = (params) =>
+  asyncFetchData(api.getFilteredUsers, receiveUsersActionCreator, params);
 
-const asyncSearchedProducts = (query) => {
-  return async (dispatch) => {
-    try {
-      const products = await api.getSearchedProducts(query);
-      dispatch(receiveProductsActionCreator(products));
-    } catch (error) {
-      throw new Error(error.message || "Failed to fetch searched products");
-    }
-  };
-};
+const asyncSearchedUsers = (query) =>
+  asyncFetchData(api.getSearchedUsers, receiveUsersActionCreator, { query });
+
+const asyncGetProductsByCategory = (category) =>
+  asyncFetchData(api.getProductsByCategory, receiveProductsActionCreator, {
+    category,
+  });
+
+const asyncSearchedProducts = (query) =>
+  asyncFetchData(api.getSearchedProducts, receiveProductsActionCreator, {
+    query,
+  });
 
 export {
-  asyncPopulateUsersAndProducts,
+  asyncPopulateUsers,
+  asyncPopulateProducts,
   asyncFilteredUsers,
   asyncSearchedUsers,
   asyncGetProductsByCategory,
