@@ -4,6 +4,7 @@ import { hideLoading, showLoading } from "../loading/action";
 
 const ActionType = {
   RECEIVE_USERS: "users/receive",
+  RECEIVE_USER_DETAIL: "users/detail",
   RECEIVE_TOTAL_PAGE: "users/totalpage",
   SET_PAGE: "users/setpage",
   SET_LIMIT: "users/setlimit",
@@ -14,6 +15,15 @@ const receiveUsersActionCreator = (users) => {
     type: ActionType.RECEIVE_USERS,
     payload: {
       users,
+    },
+  };
+};
+
+const receiveUserDetailActionCreator = (user) => {
+  return {
+    type: ActionType.RECEIVE_USER_DETAIL,
+    payload: {
+      user,
     },
   };
 };
@@ -64,21 +74,16 @@ const asyncGetUser = ({ skip, limit }) => {
   };
 };
 
-const asyncSetPage = (page) => {
-  return (dispatch) => {
+const asyncGetUserDetail = (id) => {
+  return async (dispatch) => {
     dispatch(showLoading());
 
-    dispatch(setPageActionCreator(page));
-
-    dispatch(hideLoading());
-  };
-};
-
-const asyncSetLimit = (limit) => {
-  return (dispatch) => {
-    dispatch(showLoading());
-
-    dispatch(setLimitActionCreator(limit));
+    try {
+      const user = await api.getUserById(id);
+      dispatch(receiveUserDetailActionCreator(user));
+    } catch (error) {
+      showToast(error.response.data.message || "User not found", "error");
+    }
 
     dispatch(hideLoading());
   };
@@ -122,13 +127,35 @@ const asyncGetUserSearch = ({ query, skip, limit }) => {
   };
 };
 
+const asyncSetPage = (page) => {
+  return (dispatch) => {
+    dispatch(showLoading());
+
+    dispatch(setPageActionCreator(page));
+
+    dispatch(hideLoading());
+  };
+};
+
+const asyncSetLimit = (limit) => {
+  return (dispatch) => {
+    dispatch(showLoading());
+
+    dispatch(setLimitActionCreator(limit));
+
+    dispatch(hideLoading());
+  };
+};
+
 export {
   ActionType,
   receiveUsersActionCreator,
   receiveTotalPageActionCreator,
+  receiveUserDetailActionCreator,
   setPageActionCreator,
   setLimitActionCreator,
   asyncGetUser,
+  asyncGetUserDetail,
   asyncGetUserFilter,
   asyncGetUserSearch,
   asyncSetPage,
