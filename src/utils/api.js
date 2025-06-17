@@ -104,7 +104,7 @@ const api = (() => {
     return data.users;
   };
 
-  const getSearchedUsers = async (query) => {
+  const getSearchedUsers = async ({ query }) => {
     const response = await axios(`${BASE_URL}/users/search?q=${query}`);
 
     const { status, data } = response;
@@ -152,7 +152,7 @@ const api = (() => {
     return data;
   };
 
-  const getProductsByCategory = async (category) => {
+  const getProductsByCategory = async ({ category }) => {
     const response = await axios(`${BASE_URL}/products/category/${category}`);
 
     const { status, data } = response;
@@ -164,7 +164,7 @@ const api = (() => {
     return data.products;
   };
 
-  const getSearchedProducts = async (query) => {
+  const getSearchedProducts = async ({ query }) => {
     const response = await axios(`${BASE_URL}/products/search?q=${query}`);
 
     const { status, data } = response;
