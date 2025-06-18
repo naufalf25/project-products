@@ -271,15 +271,11 @@ const asyncUpdateProduct = ({
 };
 
 const asyncSetPage = (page) => {
-  return (dispatch) => {
-    dispatch(setPageProductsActionCreator(page));
-  };
+  return (dispatch) => dispatch(setPageProductsActionCreator(page));
 };
 
 const asyncSetLimit = (limit) => {
-  return (dispatch) => {
-    dispatch(setLimitProductsActionCreator(limit));
-  };
+  return (dispatch) => dispatch(setLimitProductsActionCreator(limit));
 };
 
 export {

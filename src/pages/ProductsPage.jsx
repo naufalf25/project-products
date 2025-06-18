@@ -36,29 +36,39 @@ function ProductsPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (category) {
-      setSearch("");
-      dispatch(asyncGetproductsByCategory({ category, skip: page - 1, limit }));
-    } else {
-      dispatch(asyncGetAllProducts({ skip: page - 1, limit }));
-    }
+    const delay = setTimeout(() => {
+      if (category !== "" && search === "") {
+        setSearch("");
+        dispatch(
+          asyncGetproductsByCategory({ category, skip: page - 1, limit })
+        );
+      } else if (search !== "") {
+        setCategory("");
+        dispatch(
+          asyncGetSearchedProducts({ query: search, skip: page - 1, limit })
+        );
+      } else {
+        dispatch(asyncGetAllProducts({ skip: page - 1, limit }));
+      }
+    }, 500);
 
+    return () => clearTimeout(delay);
+  }, [category, dispatch, limit, page, search]);
+
+  useEffect(() => {
     dispatch(asyncGetAllCategories());
-  }, [category, dispatch, limit, page]);
+  }, [dispatch]);
 
-  const handleSearchSubmit = (e) => {
-    if (e.key === "Enter" || e.keyCode === "13") {
-      setCategory("");
-      dispatch(
-        asyncGetSearchedProducts({ query: search, skip: page - 1, limit })
-      );
-    }
+  const handleChangeSearch = (e) => {
+    dispatch(asyncSetPage(1));
+    setSearch(e.target.value);
   };
 
   const handleCategorySet = (e) => {
     e.preventDefault();
 
     setSearch("");
+    dispatch(asyncSetPage(1));
     setCategory(e.target.value);
   };
 
@@ -98,11 +108,7 @@ function ProductsPage() {
           >
             Add New Products
           </Link>
-          <SearchBar
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onSubmit={handleSearchSubmit}
-          />
+          <SearchBar value={search} onChange={handleChangeSearch} />
         </div>
       </Card>
       {loading && products.length === 0 && (

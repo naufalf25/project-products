@@ -60,7 +60,7 @@ const asyncGetUser = ({ skip, limit }) => {
     dispatch(showLoading());
 
     try {
-      const data = await api.getNewAllUsers({ skip, limit });
+      const data = await api.getAllUsers({ skip, limit });
       dispatch(receiveUsersActionCreator(data.users));
       dispatch(receiveTotalPageActionCreator(data.total));
     } catch (error) {
@@ -128,23 +128,11 @@ const asyncGetUserSearch = ({ query, skip, limit }) => {
 };
 
 const asyncSetPage = (page) => {
-  return (dispatch) => {
-    dispatch(showLoading());
-
-    dispatch(setPageActionCreator(page));
-
-    dispatch(hideLoading());
-  };
+  return (dispatch) => dispatch(setPageActionCreator(page));
 };
 
 const asyncSetLimit = (limit) => {
-  return (dispatch) => {
-    dispatch(showLoading());
-
-    dispatch(setLimitActionCreator(limit));
-
-    dispatch(hideLoading());
-  };
+  return (dispatch) => dispatch(setLimitActionCreator(limit));
 };
 
 export {
