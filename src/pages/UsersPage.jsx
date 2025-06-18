@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, TextField } from "@mui/material";
+import { Card } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   asyncGetUser,
@@ -10,7 +10,7 @@ import {
 } from "../states/users/action";
 import UsersTable from "../components/UsersTable";
 import Loading from "../components/Loading";
-import { MdSearch } from "react-icons/md";
+import SearchBar from "../components/SearchBar";
 
 const roleList = [
   {
@@ -45,21 +45,21 @@ function UsersPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (role === "all" && search.length === 0) {
-      dispatch(asyncGetUser({ skip: page - 1, limit }));
-    } else {
+    if (role !== "all") {
       dispatch(
         asyncGetUserFilter({ key: "role", value: role, skip: page - 1, limit })
       );
+    } else {
+      dispatch(asyncGetUser({ skip: page - 1, limit }));
     }
-  }, [dispatch, limit, page, role, search]);
+  }, [dispatch, limit, page, role]);
 
-  useEffect(() => {
-    if (search.length > 0) {
+  const handleSearchSubmit = (e) => {
+    if (e.key === "Enter" || e.keyCode === "13") {
       setRole("all");
       dispatch(asyncGetUserSearch({ query: search, skip: page - 1, limit }));
     }
-  }, [search, dispatch, page, limit]);
+  };
 
   const handleRoleButton = (e) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ function UsersPage() {
     <section className="flex w-full flex-col gap-4 overflow-auto p-4">
       <Card className="w-full p-4 md:px-8 lg:px-10">
         <h1 className="text-lg font-bold tracking-wide md:text-xl lg:text-2xl">
-          Users List
+          Users <span className="text-orange-600">List</span>
         </h1>
         <p className="text-sm text-slate-500 italic">
           The list of our user data
@@ -91,24 +91,18 @@ function UsersPage() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2">
-          <MdSearch className="text-2xl text-slate-400" />
-          <TextField
-            variant="standard"
-            type="text"
-            className="w-full"
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+        <SearchBar
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onSubmit={handleSearchSubmit}
+        />
       </Card>
       {loading && users.length === 0 && (
         <div className="flex items-center justify-center">
           <Loading />
         </div>
       )}
-      {users.length === 0 ? (
+      {!loading && users.length === 0 ? (
         <div className="flex h-full items-center justify-center">
           <p className="text-lg font-semibold md:text-2xl">
             Users data not found!

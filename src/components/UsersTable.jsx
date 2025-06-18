@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { Link } from "react-router";
+import PropTypes from "prop-types";
 
 function UsersTable({
   users,
@@ -76,5 +77,21 @@ function UsersTable({
     </TableContainer>
   );
 }
+
+UsersTable.propTypes = {
+  users: PropTypes.objectOf({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  }),
+  page: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onLimitChange: PropTypes.func.isRequired,
+};
 
 export default UsersTable;

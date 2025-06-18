@@ -13,6 +13,8 @@ import { unsetAuthUser } from "./states/authUser/action";
 import Navigation from "./components/Navigation";
 import LoadingBar from "./components/LoadingBar";
 import { NavProvider } from "./context/NavContext";
+import CreateProduct from "./pages/CreateProduct";
+import UpdateProduct from "./pages/UpdateProduct";
 
 function App() {
   const {
@@ -63,8 +65,17 @@ function App() {
             <Route path="/users" element={<UserPage />} />
             <Route path="/users/:id" element={<UserDetailPage />} />
             <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/create" element={<CreateProduct />} />
+            <Route path="/products/update/:id" element={<UpdateProduct />} />
             <Route path="/products/:id" element={<ProductDetailPage />} />
-            <Route path="/*" element={<NotFoundPage />} />
+            <Route
+              path="/*"
+              element={
+                <div className="flex h-screen w-full items-center justify-center">
+                  <NotFoundPage />
+                </div>
+              }
+            />
           </Routes>
         </NavProvider>
       </div>
