@@ -17,11 +17,7 @@ function LoginInput({ onLogin }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mt-4 flex flex-col gap-4"
-      autoComplete="off"
-    >
+    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label className="font-semibold">Username</label>
         <Input
@@ -38,6 +34,7 @@ function LoginInput({ onLogin }) {
           placeholder="Your Password"
           value={password}
           onChange={setPassword}
+          autoComplete="current-password"
         />
       </div>
       <Button
