@@ -132,8 +132,10 @@ const api = (() => {
     return data;
   };
 
-  const getAllProducts = async () => {
-    const response = await axios(`${BASE_URL}/products`);
+  const getAllProducts = async ({ skip, limit }) => {
+    const response = await axios(
+      `${BASE_URL}/products?skip=${skip}&limit=${limit}&select=title,description,price,category,rating,reviews,thumbnail`
+    );
 
     const { status, data } = response;
 
@@ -141,7 +143,7 @@ const api = (() => {
       throw new Error(data.message || "Failed to fetch products");
     }
 
-    return data.products;
+    return data;
   };
 
   const getAllProductCategoryLists = async () => {
@@ -156,8 +158,11 @@ const api = (() => {
     return data;
   };
 
-  const getProductsByCategory = async ({ category }) => {
-    const response = await axios(`${BASE_URL}/products/category/${category}`);
+  const getProductsByCategory = async ({ category, skip, limit }) => {
+    const response = await axios(
+      `${BASE_URL}/products/category/${category}?skip=${skip}&limit=${limit}&select=title,description,price,category,rating,reviews,thumbnail`
+    );
+    console.log(response);
 
     const { status, data } = response;
 
@@ -165,11 +170,13 @@ const api = (() => {
       throw new Error(data.message || "Products not found");
     }
 
-    return data.products;
+    return data;
   };
 
-  const getSearchedProducts = async ({ query }) => {
-    const response = await axios(`${BASE_URL}/products/search?q=${query}`);
+  const getSearchedProducts = async ({ query, skip, limit }) => {
+    const response = await axios(
+      `${BASE_URL}/products/search?q=${query}&skip=${skip}&limit=${limit}&select=title,description,price,category,rating,reviews,thumbnail`
+    );
 
     const { status, data } = response;
 
@@ -177,7 +184,7 @@ const api = (() => {
       throw new Error(data.message || "Searched products not found");
     }
 
-    return data.products;
+    return data;
   };
 
   const getProductById = async (id) => {
