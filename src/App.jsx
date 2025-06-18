@@ -19,13 +19,12 @@ import UpdateProduct from "./pages/UpdateProduct";
 import { ThemeProvider } from "@emotion/react";
 import { darkTheme, lightTheme } from "./utils/theme";
 import { CssBaseline } from "@mui/material";
+import Loading from "./components/Loading";
 
 function App() {
-  const {
-    authUser = null,
-    loading = false,
-    isPreload = false,
-  } = useSelector((states) => states);
+  const { authUser = null, isPreload = false } = useSelector(
+    (states) => states
+  );
 
   const [nav, setNav] = useState(
     JSON.parse(localStorage.getItem("nav")) || false
@@ -76,8 +75,12 @@ function App() {
     dispatch(unsetAuthUser());
   };
 
-  if (isPreload && loading) {
-    return null;
+  if (isPreload) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (authUser) {
