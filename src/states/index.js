@@ -4,7 +4,6 @@ import isPreloadReducer from "./isPreload/reducer";
 import usersReducer from "./users/reducer";
 import productsReducer from "./products/reducer";
 import loadingReducer from "./loading/reducer";
-import errorReducer from "./error/reducer";
 
 // const logger = (store) => (next) => (action) => {
 //   console.log("dispatching", action);
@@ -20,7 +19,6 @@ const store = configureStore({
     users: usersReducer,
     products: productsReducer,
     loading: loadingReducer,
-    error: errorReducer,
   },
   // middleware: (getMiddleware) => getMiddleware().concat(logger),
 });

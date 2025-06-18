@@ -45,26 +45,37 @@ function UsersPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (role !== "all") {
-      dispatch(
-        asyncGetUserFilter({ key: "role", value: role, skip: page - 1, limit })
-      );
-    } else {
-      dispatch(asyncGetUser({ skip: page - 1, limit }));
-    }
-  }, [dispatch, limit, page, role]);
+    const delay = setTimeout(() => {
+      if (role !== "all" && search === "") {
+        dispatch(
+          asyncGetUserFilter({
+            key: "role",
+            value: role,
+            skip: page - 1,
+            limit,
+          })
+        );
+      } else if (search !== "") {
+        setRole("all");
+        dispatch(asyncGetUserSearch({ query: search, skip: page - 1, limit }));
+      } else {
+        dispatch(asyncGetUser({ skip: page - 1, limit }));
+      }
+    }, 500);
 
-  const handleSearchSubmit = (e) => {
-    if (e.key === "Enter" || e.keyCode === "13") {
-      setRole("all");
-      dispatch(asyncGetUserSearch({ query: search, skip: page - 1, limit }));
-    }
+    return () => clearTimeout(delay);
+  }, [dispatch, limit, page, role, search]);
+
+  const handleChangeSearch = (e) => {
+    dispatch(asyncSetPage(1));
+    setSearch(e.target.value);
   };
 
   const handleRoleButton = (e) => {
     e.preventDefault();
 
     setSearch("");
+    dispatch(asyncSetPage(1));
     setRole(e.target.value);
   };
 
@@ -91,11 +102,7 @@ function UsersPage() {
             </button>
           ))}
         </div>
-        <SearchBar
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onSubmit={handleSearchSubmit}
-        />
+        <SearchBar value={search} onChange={handleChangeSearch} />
       </Card>
       {loading && users.length === 0 && (
         <div className="flex items-center justify-center">

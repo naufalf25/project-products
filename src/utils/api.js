@@ -60,9 +60,9 @@ const api = (() => {
     };
   };
 
-  const getNewAllUsers = async ({ skip, limit }) => {
+  const getAllUsers = async ({ skip, limit }) => {
     const response = await axios(
-      `${BASE_URL}/users?skip=${skip}&limit=${limit}&sortBy=firstName&order=asc&select=firstName,lastName,email,role,image`
+      `${BASE_URL}/users?skip=${skip}&limit=${limit}&select=firstName,lastName,email,role,image`
     );
 
     const { status, data } = response;
@@ -283,7 +283,7 @@ const api = (() => {
     getRefreshToken,
     clearAccessToken,
     login,
-    getNewAllUsers,
+    getAllUsers,
     getOwnProfile,
     getFilteredUsers,
     getSearchedUsers,
