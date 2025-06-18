@@ -125,21 +125,29 @@ function ProductDetailPage() {
                 </div>
                 <Table className="mt-10">
                   <TableRow>
-                    <TableCell className="text-slate-500">Stock:</TableCell>
+                    <TableCell className="text-slate-500 dark:text-slate-300">
+                      Stock:
+                    </TableCell>
                     <TableCell>{productDetail.stock}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="text-slate-500">Shipping:</TableCell>
+                    <TableCell className="text-slate-500 dark:text-slate-300">
+                      Shipping:
+                    </TableCell>
                     <TableCell>{productDetail.shippingInformation}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="text-slate-500">Warranty:</TableCell>
+                    <TableCell className="text-slate-500 dark:text-slate-300">
+                      Warranty:
+                    </TableCell>
                     <TableCell>{productDetail.warrantyInformation}</TableCell>
                   </TableRow>
                 </Table>
               </div>
               <div className="mt-10">
-                <p className="text-xl font-medium text-slate-400">Price</p>
+                <p className="text-xl font-medium text-slate-400 dark:text-slate-200">
+                  Price
+                </p>
                 <p className="text-2xl font-bold md:text-3xl">
                   $ {productDetail.price}
                 </p>

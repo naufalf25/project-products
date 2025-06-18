@@ -8,7 +8,7 @@ function Review({ review }) {
 
   return (
     <div className="border-b border-b-slate-200 pb-4">
-      <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
+      <div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-400">
         <h3>{reviewerName}</h3>
         <p>|</p>
         <p>{formatDate(date)}</p>

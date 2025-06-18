@@ -12,12 +12,13 @@ function NavigationLink({
   title,
 }) {
   const location = useLocation();
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   return (
     <Link
       to={targetPath}
-      onClick={nav && toggleNav}
-      className={`flex items-center gap-4 rounded-lg p-2 hover:bg-orange-100 md:px-4 ${title === "dashboard" ? currentPath === "/" && "bg-orange-100" : location.pathname.startsWith(targetPath) && "bg-amber-100"}`}
+      onClick={isMobile && nav && toggleNav}
+      className={`flex items-center gap-4 rounded-lg p-2 hover:bg-orange-100 lg:px-4 hover:dark:text-black ${title === "dashboard" ? currentPath === "/" && "bg-orange-100 dark:text-black" : location.pathname.startsWith(targetPath) && "bg-orange-100 dark:text-black"}`}
     >
       <Icon className="text-lg md:text-2xl" />
       {nav && <p className="capitalize md:text-lg">{title}</p>}
