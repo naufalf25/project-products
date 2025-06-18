@@ -1,6 +1,5 @@
 import { showToast } from "../../utils/alert";
 import api from "../../utils/api";
-import { setError, unsetError } from "../error/action";
 import { hideLoading, showLoading } from "../loading/action";
 
 const ActionType = {
@@ -97,7 +96,8 @@ const asyncGetAllProducts = ({ skip, limit }) => {
       dispatch(receiveProductsTotalActionCreator(data.total));
     } catch (error) {
       showToast(
-        error.response.data.message || "Failed to get all products data"
+        error.response.data.message || "Failed to get all products data",
+        "error"
       );
     }
 
@@ -113,7 +113,7 @@ const asyncGetProductDetail = (id) => {
       const product = await api.getProductById(id);
       dispatch(receiveProductDetailActionCreator(product));
     } catch (error) {
-      showToast(error.response.data.message || "Product ID not found");
+      showToast(error.response.data.message || "Product ID not found", "error");
     }
 
     dispatch(hideLoading());
@@ -129,7 +129,8 @@ const asyncGetAllCategories = () => {
       dispatch(receiveProductsCategoriesActionCreator(categories));
     } catch (error) {
       showToast(
-        error.response.data.message || "Failed to get all categories list"
+        error.response.data.message || "Failed to get all categories list",
+        "error"
       );
     }
 
@@ -147,7 +148,8 @@ const asyncGetproductsByCategory = ({ category, skip, limit }) => {
       dispatch(receiveProductsTotalActionCreator(data.total));
     } catch (error) {
       showToast(
-        error.response.data.message || "Failed to get all products by category"
+        error.response.data.message || "Failed to get all products by category",
+        "error"
       );
     }
 
@@ -165,7 +167,8 @@ const asyncGetSearchedProducts = ({ query, skip, limit }) => {
       dispatch(receiveProductsTotalActionCreator(data.total));
     } catch (error) {
       showToast(
-        error.response.data.message || "Failed to get all searched products"
+        error.response.data.message || "Failed to get all searched products",
+        "error"
       );
     }
 
@@ -176,30 +179,40 @@ const asyncGetSearchedProducts = ({ query, skip, limit }) => {
 const asyncCreateProduct = ({
   title,
   description,
-  price,
   category,
-  rating,
+  stock,
+  price,
+  rating = 0,
+  shippingInformation,
+  warrantyInformation,
   reviews = [],
-  thumbnail,
+  images,
 }) => {
   return async (dispatch) => {
     dispatch(showLoading());
-    dispatch(unsetError());
 
     try {
       const product = await api.addProduct({
         title,
         description,
-        price,
         category,
+        stock,
+        price,
         rating,
+        shippingInformation,
+        warrantyInformation,
         reviews,
-        thumbnail,
+        images,
       });
       dispatch(createProductActionCreator(product));
+
+      showToast("Create new product succesfull!", "success");
+
+      window.location.href = "/products";
     } catch (error) {
-      dispatch(
-        setError(error.response.data.message || "Failed to create new product")
+      showToast(
+        error.response.data.message || "Failed to create new product",
+        "error"
       );
     }
 
@@ -211,26 +224,31 @@ const asyncUpdateProduct = ({
   id,
   title,
   description,
-  price,
   category,
-  rating,
+  stock,
+  price,
+  rating = 0,
+  shippingInformation,
+  warrantyInformation,
   reviews = [],
-  thumbnail,
+  images,
 }) => {
   return async (dispatch) => {
     dispatch(showLoading());
-    dispatch(unsetError());
 
     try {
       const updateProduct = await api.updateProduct({
         id,
         title,
         description,
-        price,
         category,
+        stock,
+        price,
         rating,
+        shippingInformation,
+        warrantyInformation,
         reviews,
-        thumbnail,
+        images,
       });
       dispatch(
         updateProductActionCreator({
@@ -238,9 +256,13 @@ const asyncUpdateProduct = ({
           product: updateProduct,
         })
       );
+
+      showToast("Updating product succesfull!", "success");
+      window.location.href = "/products";
     } catch (error) {
-      dispatch(
-        setError(error.response.data.message || "Failed to update product")
+      showToast(
+        error.response.data.message || "Failed to update product",
+        "error"
       );
     }
 

@@ -9,7 +9,7 @@ import { BrowserRouter } from "react-router";
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename="/">
         <App />
       </BrowserRouter>
     </StrictMode>

@@ -27,15 +27,17 @@ function ProductsTable({
     >
       <Table stickyHeader>
         <TableHead>
-          <TableCell>ID</TableCell>
-          <TableCell>Image</TableCell>
-          <TableCell>Title</TableCell>
-          <TableCell>Description</TableCell>
-          <TableCell>Category</TableCell>
-          <TableCell>Price</TableCell>
-          <TableCell>Rating</TableCell>
-          <TableCell>Reviews</TableCell>
-          <TableCell>Action</TableCell>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Image</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell>Price</TableCell>
+            <TableCell>Rating</TableCell>
+            <TableCell>Reviews</TableCell>
+            <TableCell>Action</TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
           {products.map(

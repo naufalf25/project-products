@@ -189,7 +189,6 @@ const api = (() => {
 
   const getProductById = async (id) => {
     const response = await axios(`${BASE_URL}/products/${id}`);
-    console.log(response);
 
     const { status, data } = response;
 
@@ -203,18 +202,28 @@ const api = (() => {
   const addProduct = async ({
     title,
     description,
-    price,
     category,
+    stock,
+    price,
     rating,
+    shippingInformation,
+    warrantyInformation,
+    reviews,
+    images,
   }) => {
     const response = await axios(`${BASE_URL}/products/add`, {
       method: "post",
       data: {
         title,
         description,
-        price,
         category,
+        stock,
+        price,
         rating,
+        shippingInformation,
+        warrantyInformation,
+        reviews,
+        images,
       },
       headers: {
         "Content-Type": "application/json",
@@ -223,7 +232,7 @@ const api = (() => {
 
     const { status, data } = response;
 
-    if (status !== 200) {
+    if (status !== 201) {
       throw new Error(data.message || "Failed to add product");
     }
   };
@@ -232,18 +241,28 @@ const api = (() => {
     id,
     title,
     description,
-    price,
     category,
+    stock,
+    price,
     rating,
+    shippingInformation,
+    warrantyInformation,
+    reviews,
+    images,
   }) => {
     const response = await axios(`${BASE_URL}/products/${id}`, {
       method: "put",
       data: {
         title,
         description,
-        price,
         category,
+        stock,
+        price,
         rating,
+        shippingInformation,
+        warrantyInformation,
+        reviews,
+        images,
       },
       headers: {
         "Content-Type": "application/json",

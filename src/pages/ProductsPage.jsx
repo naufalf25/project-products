@@ -61,6 +61,7 @@ function ProductsPage() {
     setSearch("");
     setCategory(e.target.value);
   };
+
   return (
     <section className="flex w-full flex-col gap-4 overflow-auto p-4">
       <Card className="w-full rounded-lg p-4 md:px-8 lg:px-10">
