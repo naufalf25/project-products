@@ -6,20 +6,15 @@ function LoadingBar() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let interval;
-
     if (loading) {
       setProgress(10); // Start progress
-      interval = setInterval(() => {
+      setTimeout(() => {
         setProgress((prev) => (prev < 90 ? prev + 10 : prev));
       }, 500);
     } else {
       setProgress(100); // Finish loading
       setTimeout(() => setProgress(0), 500); // Delay hide for smooth transition
-      return () => clearInterval(interval);
     }
-
-    return () => clearInterval(interval); // Cleanup interval when unmounting
   }, [loading, progress]);
 
   if (progress > 0) {
