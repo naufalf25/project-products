@@ -8,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  useTheme,
 } from "@mui/material";
 import { Link } from "react-router";
 import PropTypes from "prop-types";
@@ -20,6 +21,8 @@ function UsersTable({
   onPageChange,
   onLimitChange,
 }) {
+  const theme = useTheme();
+
   return (
     <TableContainer
       component={Paper}
@@ -42,7 +45,7 @@ function UsersTable({
                 <img
                   src={image}
                   alt={`${firstName} profile`}
-                  className="h-8 w-8 rounded-full"
+                  className="h-10 w-10 rounded-full bg-white p-1"
                 />
               </TableCell>
               <TableCell>
@@ -72,7 +75,11 @@ function UsersTable({
           onLimitChange(parseInt(event.target.value, 10))
         }
         onPageChange={(event, newPage) => onPageChange(newPage + 1)}
-        sx={{ position: "sticky", bottom: 0, backgroundColor: "white" }}
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          backgroundColor: theme.palette.background.default,
+        }}
       />
     </TableContainer>
   );

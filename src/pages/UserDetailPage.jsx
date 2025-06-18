@@ -40,7 +40,7 @@ function UserDetailPage() {
           <img
             src={image}
             alt={`${firstName} profile`}
-            className="w-40 rounded-full"
+            className="w-40 rounded-full bg-white p-1"
           />
           <div className="flex flex-col items-center justify-center gap-2">
             <h2 className="font-semibold md:text-lg lg:text-xl">
@@ -90,42 +90,6 @@ function UserDetailPage() {
                   <p className="text-lg">{bloodGroup}</p>
                 </div>
               </div>
-              {/* <div className="mt-6 flex flex-col gap-8">
-                <div className="flex flex-col gap-4">
-                  <p className="text-lg font-medium text-slate-500">
-                    First Name
-                  </p>
-                  <p className="text-lg">{firstName}</p>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <p className="text-lg font-medium text-slate-500">Username</p>
-                  <p className="text-lg">{username}</p>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <p className="text-lg font-medium text-slate-500">
-                    Blood Group
-                  </p>
-                  <p className="text-lg">{bloodGroup}</p>
-                </div>
-              </div>
-              <div className="mt-6 flex flex-col gap-8">
-                <div className="flex flex-col gap-4">
-                  <p className="text-lg font-medium text-slate-500">
-                    Last Name
-                  </p>
-                  <p className="text-lg">{lastName}</p>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <p className="text-lg font-medium text-slate-500">
-                    Phone Number
-                  </p>
-                  <p className="text-lg">{phone}</p>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <p className="text-lg font-medium text-slate-500">Gender</p>
-                  <p className="text-lg capitalize">{gender}</p>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

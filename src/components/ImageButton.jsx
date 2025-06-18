@@ -6,7 +6,7 @@ function ImageButton({ index, sliderRef, activeSlide, image }) {
     <button
       onClick={() => sliderRef.current.slickGoTo(index)}
       key={index}
-      className={`cursor-pointer rounded-xl border-4 p-4 ${activeSlide === index ? "border-orange-600/50" : "border-transparent"}`}
+      className={`cursor-pointer rounded-xl border-4 p-4 dark:bg-slate-200 ${activeSlide === index ? "border-orange-600/50" : "border-transparent"}`}
     >
       <img src={image} alt={`image-${index}`} className="w-full" />
     </button>

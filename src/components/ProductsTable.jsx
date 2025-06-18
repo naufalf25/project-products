@@ -8,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  useTheme,
 } from "@mui/material";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router";
@@ -20,6 +21,8 @@ function ProductsTable({
   onPageChange,
   onLimitChange,
 }) {
+  const theme = useTheme();
+
   return (
     <TableContainer
       component={Paper}
@@ -57,7 +60,7 @@ function ProductsTable({
                   <img
                     src={thumbnail}
                     alt={`${title} thumbnail`}
-                    className="w-20 rounded-full md:w-40"
+                    className="w-20 rounded-full bg-white p-1 md:w-40"
                   />
                 </TableCell>
                 <TableCell>{title}</TableCell>
@@ -65,7 +68,7 @@ function ProductsTable({
                 <TableCell>{category}</TableCell>
                 <TableCell>$ {price}</TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2 rounded-full bg-yellow-200 px-4 py-2">
+                  <div className="flex items-center gap-2 rounded-full bg-yellow-200 px-4 py-1 dark:text-black">
                     <FaStar className="text-2xl text-yellow-500" />
                     <p>{rating}</p>
                   </div>
@@ -102,7 +105,11 @@ function ProductsTable({
           onLimitChange(parseInt(event.target.value), 10)
         }
         onPageChange={(event, newPage) => onPageChange(newPage + 1)}
-        sx={{ position: "sticky", bottom: 0, backgroundColor: "white" }}
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          backgroundColor: theme.palette.background.default,
+        }}
       />
     </TableContainer>
   );
