@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncPreloadProcess } from "./states/isPreload/action";
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UsersPage";
@@ -87,7 +87,14 @@ function App() {
       <LoadingBar />
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/*" element={<Navigate to="/" replace />} />
+        <Route
+          path="/*"
+          element={
+            <div className="flex h-screen w-full items-center justify-center">
+              <NotFoundPage />
+            </div>
+          }
+        />
       </Routes>
     </div>
   );

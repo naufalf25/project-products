@@ -57,6 +57,13 @@ function Navigation({ authUser, onSignOut }) {
                 Products <span className="text-orange-600">Apps</span>
               </h1>
             )}
+            {!nav && (
+              <div className="flex items-center justify-center">
+                <h1 className="text-lg font-bold text-orange-600 md:text-xl lg:text-2xl">
+                  P
+                </h1>
+              </div>
+            )}
             <div className="flex h-5/6 flex-col justify-between">
               <nav className="mt-10 flex flex-col gap-2">
                 {navLists.map(({ id, icon, title, path }) => (
@@ -71,7 +78,7 @@ function Navigation({ authUser, onSignOut }) {
                   />
                 ))}
               </nav>
-              <div>
+              <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-center gap-2">
                   <img
                     src={authUser?.image}
