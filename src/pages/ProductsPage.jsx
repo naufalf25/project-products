@@ -64,9 +64,9 @@ function ProductsPage() {
   return (
     <section className="flex w-full flex-col gap-4 overflow-auto p-4">
       <Card className="w-full rounded-lg p-4 md:px-8 lg:px-10">
-        <h2 className="text-xl font-bold tracking-wide md:text-2xl">
+        <h1 className="text-xl font-bold tracking-wide md:text-2xl">
           Products <span className="text-orange-600">List</span>
-        </h2>
+        </h1>
         <p className="mt-2 text-sm text-slate-400 italic">
           This is list of all our products
         </p>

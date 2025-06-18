@@ -189,6 +189,7 @@ const api = (() => {
 
   const getProductById = async (id) => {
     const response = await axios(`${BASE_URL}/products/${id}`);
+    console.log(response);
 
     const { status, data } = response;
 
@@ -196,7 +197,7 @@ const api = (() => {
       throw new Error(data.message || "Product not found");
     }
 
-    return data.products;
+    return data;
   };
 
   const addProduct = async ({
